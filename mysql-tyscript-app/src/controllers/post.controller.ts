@@ -24,3 +24,21 @@ export async function getPost(req:Request , res:Response):Promise <Response>{
    return res.json(posts[0]);
 };
 
+export async function deletePost(req:Request , res:Response){
+   const id= req.params.postId;
+   const conn= await connect();
+   await conn.query('DELETE FROM posts WHERE id = ?' , [id]);
+   return res.json({
+      message:'Post Deleted'
+   });
+};
+
+export async function updatePost(req:Request , res:Response){
+   const id= req.params.postId;
+   const updatePost:Post= req.body;
+   const conn= await connect();
+   await conn.query('UPDATE posts set ? WHERE id = ?' , [updatePost,id]);
+   return res.json({
+      message:'Post Updated'
+   });
+};
